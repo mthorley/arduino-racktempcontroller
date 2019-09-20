@@ -10,7 +10,7 @@ void RackTempController::process(RackState_t& rs) {
     readTempState(rs.thermos);
 
     // set fan speed based on temps
-    setFanSpeed(rs);
+    adjustFanSpeed(rs);
     
     // read fan tach/rpm - delay of 750ms per fan
     readFanSpeed(rs.fans);
@@ -95,7 +95,7 @@ void RackTempController::verifyFanState(Fans_t& fans) const {
     }
 }
 
-void RackTempController::setFanSpeed(RackState_t& rs) {
+void RackTempController::adjustFanSpeed(RackState_t& rs) {
 
     // Basic rule: any fan above 20C, set it at full spin
     // else run it at half speed.

@@ -60,7 +60,7 @@ public:
 protected:
     void readFanSpeed(Fans_t& fs);
     void readTempState(Thermos_t& ts);
-    void setFanSpeed(RackState_t& rs);
+    void adjustFanSpeed(RackState_t& rs);
     void verifyFanState(Fans_t& fs) const;
     void analyseTrends(RackState_t& rs) /* const */;
 

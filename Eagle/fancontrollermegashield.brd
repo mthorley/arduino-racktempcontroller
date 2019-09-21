@@ -3,7 +3,7 @@
 <eagle version="9.4.2">
 <drawing>
 <settings>
-<setting alwaysvectorfont="no"/>
+<setting alwaysvectorfont="yes"/>
 <setting keepoldvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
@@ -3446,16 +3446,17 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </signal>
 <signal name="POE_VIN">
 <contactref element="J3" pad="4"/>
+<contactref element="JP6" pad="3"/>
+<wire x1="55.88" y1="27.46375" x2="58.1025" y2="27.46375" width="0.1524" layer="1"/>
+<wire x1="47.625" y1="19.20875" x2="55.88" y2="27.46375" width="0.1524" layer="16"/>
+<wire x1="10.16" y1="19.20875" x2="47.625" y2="19.20875" width="0.1524" layer="16"/>
+<wire x1="10.16" y1="19.05" x2="10.16" y2="19.20875" width="0.1524" layer="16"/>
+<wire x1="58.1025" y1="27.46375" x2="58.166" y2="27.4828" width="0.1524" layer="1"/>
+<via x="55.88" y="27.46375" extent="1-16" drill="0.3048"/>
 </signal>
 <signal name="POE_+">
 <contactref element="J3" pad="3"/>
-<wire x1="45.72" y1="17.145" x2="55.88" y2="27.305" width="0.1524" layer="16"/>
-<wire x1="58.1025" y1="27.305" x2="58.149909375" y2="27.437746875" width="0.1524" layer="1"/>
-<via x="55.88" y="27.305" extent="1-16" drill="0.3048"/>
 <wire x1="10.16" y1="16.51" x2="10.795" y2="17.145" width="0.1524" layer="16"/>
-<wire x1="10.795" y1="17.145" x2="45.72" y2="17.145" width="0.1524" layer="16"/>
-<wire x1="55.88" y1="27.305" x2="58.0171625" y2="27.305" width="0.1524" layer="1"/>
-<wire x1="58.0171625" y1="27.305" x2="58.149909375" y2="27.437746875" width="0.1524" layer="1"/>
 </signal>
 <signal name="POE_-">
 <contactref element="J3" pad="2"/>

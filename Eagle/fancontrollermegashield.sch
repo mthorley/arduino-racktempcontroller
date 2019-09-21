@@ -10006,7 +10006,6 @@ unless ICSP header fitted</text>
 <text x="203.2" y="86.36" size="1.778" layer="97">Temperature Input Output</text>
 <wire x1="180.34" y1="33.02" x2="180.34" y2="88.9" width="0.1524" layer="97" style="longdash"/>
 <wire x1="180.34" y1="88.9" x2="233.68" y2="88.9" width="0.1524" layer="97" style="longdash"/>
-<text x="48.26" y="78.74" size="1.778" layer="91">THIS IS THE WRONG HEADER - NEEDS TO BE FEMALE NOT MALE</text>
 <wire x1="40.64" y1="86.36" x2="111.76" y2="86.36" width="0.1524" layer="97" style="longdash"/>
 <wire x1="111.76" y1="86.36" x2="111.76" y2="180.34" width="0.1524" layer="97" style="longdash"/>
 <text x="38.1" y="180.34" size="1.778" layer="97">Fan Array</text>
@@ -10941,6 +10940,11 @@ unless ICSP header fitted</text>
 <pinref part="J3" gate="G$1" pin="4"/>
 <wire x1="60.96" y1="73.66" x2="71.12" y2="73.66" width="0.1524" layer="91"/>
 <label x="71.12" y="73.66" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="JP6" gate="G$1" pin="3"/>
+<wire x1="86.36" y1="104.14" x2="104.14" y2="104.14" width="0.1524" layer="91"/>
+<label x="101.6" y="104.14" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="POE_+" class="0">

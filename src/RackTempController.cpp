@@ -77,7 +77,10 @@ RESULT RackTempController::checkRpm(FanState_t& fs) const {
    
     uint16_t minExpectedRpm = round(expectedRpm - expectedRpm * _rpmVariance);
     uint16_t maxExpectedRpm = round(expectedRpm + expectedRpm * _rpmVariance);
-    if (fs.rpm < minExpectedRpm || fs.rpm > maxExpectedRpm) {
+    if (fs.rpm < minExpectedRpm || 
+        // ignore if the maxExpectedRpm exceeds maxRpm - noise or fan manufacturer?
+       (fs.rpm > maxExpectedRpm && !(maxExpectedRpm > fs.maxRpm)) )
+    {
         fs.result = ERR_FAN_TACH;
         Log.error(F("Rpm of fan %s is out of range: %d is not between %d to %d"), 
             fs.position.c_str(),

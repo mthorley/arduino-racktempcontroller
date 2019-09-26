@@ -152,7 +152,6 @@ uint8_t OLEDDisplay::getPercentageRPM(const FanState_t& fan) const {
     else if (fan.rpm > fan.maxRpm)  // maybe due to "noise" on tach pin
         return 100;
     else 
-        //return round(((float)(fan.rpm - fan.minRpm) / (fan.maxRpm - fan.minRpm)) * 100.0);
         return round( ((float)fan.rpm / fan.maxRpm) * 100 );
 }
 

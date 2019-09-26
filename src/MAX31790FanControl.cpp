@@ -102,21 +102,26 @@ RESULT MAX31790::setPWMForAll(const uint16_t dutyCycle)
 }
 
 /**
- * GetTachCount per fan
+ * GetTachHz per fan
  */
-RESULT MAX31790::getTachCount(const uint8_t fanid, uint16_t &tachCount)
-{
+RESULT MAX31790::getTachHz(const uint8_t fanid, uint16_t& tachHz) {
+
     ASSERT_RANGE_FAN_ID(fanid, getFanCount());
     uint8_t buffer[2];
     RESULT res = readBytes(TACH_COUNT(fanid), 2, &buffer[0]);
     if (res != RES_OK)
         return res;
 
-    tachCount = buffer[0];
-    tachCount = tachCount << 8;
-    tachCount |= buffer[1];
-    tachCount = tachCount >> 5;
+    tachHz = buffer[0];
+    tachHz = tachHz << 8;
+    tachHz |= buffer[1];
+    tachHz = tachHz >> 5;
+
     return RES_OK;
+}
+
+RESULT MAX31790::getRPM(const uint8_t fanid, uint16_t& rpm) {
+    return ERR_METHOD_NOT_IMPLEMENTED;
 }
 
 /**

@@ -116,17 +116,22 @@ RESULT ArduinoFanControl::setPWMForAll(const uint16_t dutyCycle)
     return res;
 }
 
-/**
- * Get tachcount per fan
- */
-RESULT ArduinoFanControl::getTachCount(const uint8_t fanid, uint16_t &tachCount)
-{
+RESULT ArduinoFanControl::getTachHz(const uint8_t fanid, uint16_t& tachHz) {
     ASSERT_RANGE_FAN_ID(fanid, getFanCount());
-
+    
     unsigned long tachTime = 750; //ms
     measureTach(fanid, tachTime);
-    float f = getTach(fanid, tachTime);
-    tachCount = round(f);
+    float tHz = readTach(fanid, tachTime);
+    tachHz = round(tHz);
+    return RES_OK;
+}
+
+RESULT ArduinoFanControl::getRPM(const uint8_t fanid, uint16_t& rpm) {
+    uint16_t tachHz;
+    getTachHz(fanid, tachHz);
+    // Div 2 since TACH returns 2 pulses per revolution:
+    // https://noctua.at/media/wysiwyg/Noctua_PWM_specifications_white_paper.pdf 
+    rpm = (tachHz * 60.0) / 2;
     return RES_OK;
 }
 
@@ -157,10 +162,11 @@ void ArduinoFanControl::measureTach(const uint8_t fanid, unsigned long msWait)
     } while ((millis() - t1) < msWait);
 }
 
-float ArduinoFanControl::getTach(const uint8_t fanid, unsigned long ms)
+float ArduinoFanControl::readTach(const uint8_t fanid, unsigned long ms)
 {
     // See https://www.pjrc.com/teensy/td_libs_TimerOne.html Interrupt Context Issues
     // noInterrupts();
+
     uint16_t tach = 0;
     switch (fanid) {
         case 1:
@@ -178,9 +184,7 @@ float ArduinoFanControl::getTach(const uint8_t fanid, unsigned long ms)
     }
     // interrupts();
     
-    float r = (float)(60 * tach) / ((float)ms / 1000);
-    // Divide by 4: since TACH returns 2 pulses per revolution AND 
-    // interrupt is CHANGE: H-L and L-H for accuracy.
-    // https://noctua.at/media/wysiwyg/Noctua_PWM_specifications_white_paper.pdf 
-    return r / 4;
+    // Divide by 2: since interrupt is CHANGE: H-L and L-H for accuracy.
+    float tachHz = (tach * 1000.0 ) / (2 * ms);
+    return tachHz;
 }

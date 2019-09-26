@@ -14,11 +14,12 @@ public:
     virtual RESULT initialise();
     virtual RESULT setPWMForAll(const uint16_t dutyCycle);
     virtual RESULT setPWM(const uint8_t fanid, const uint16_t dutyCycle);
-    virtual RESULT getTachCount(const uint8_t fanid, uint16_t& tachCount);
+    virtual RESULT getTachHz(const uint8_t fanid, uint16_t& tachHz);
+    virtual RESULT getRPM(const uint8_t fanid, uint16_t& rpm);
 
 private:
     void measureTach(const uint8_t fanid, unsigned long ms);
-    float getTach(const uint8_t fanid, unsigned long ms);
+    float readTach(const uint8_t fanid, unsigned long ms);
 
     uint16_t _pwmPeriod;
   

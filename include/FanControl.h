@@ -33,7 +33,8 @@ public:
     virtual RESULT initialise() = 0;
     virtual RESULT setPWMForAll(const uint16_t dutyCycle) = 0;
     virtual RESULT setPWM(const uint8_t fanid, const uint16_t dutyCycle) = 0;
-    virtual RESULT getTachCount(const uint8_t fanid, uint16_t& tachCount) = 0;
+    virtual RESULT getTachHz(const uint8_t fanid, uint16_t& tachHz) = 0;
+    virtual RESULT getRPM(const uint8_t fanid, uint16_t& rpm) = 0;
 
     const uint8_t getFanCount() const {
         return _fans;

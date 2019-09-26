@@ -73,8 +73,8 @@ RESULT RackTempController::checkRpm(FanState_t& fs) const {
     }
 
     // is the fan within expected RPM variance given dutyCycle?
-    uint16_t expectedRpm = round((float)(fs.maxRpm - fs.minRpm) * ((float)fs.pwm/100)) + fs.minRpm;
-
+    uint16_t expectedRpm = round( fs.maxRpm * (float)fs.pwm/100 );
+   
     uint16_t minExpectedRpm = round(expectedRpm - expectedRpm * _rpmVariance);
     uint16_t maxExpectedRpm = round(expectedRpm + expectedRpm * _rpmVariance);
     if (fs.rpm < minExpectedRpm || fs.rpm > maxExpectedRpm) {
@@ -106,7 +106,7 @@ void RackTempController::adjustFanSpeeds(RackState_t& rs) {
     uint8_t dutyCycle = 50;
     for (auto it = rs.thermos.begin(); it != rs.thermos.end(); it++) {
         Temperature_t& thermo = it->second;
-        if (thermo.tempCelsuis > 20) {
+        if (thermo.tempCelsuis > 22) {
             dutyCycle = 100;
         }
     }
@@ -122,20 +122,20 @@ void RackTempController::adjustFanSpeeds(RackState_t& rs) {
 
 /**
  * Get tach/rpm for all fans
- * Delay of 750ms per fan within getTachCount()
+ * Delay of 750ms per fan within getRPM()
  */
 void RackTempController::readFanSpeeds(Fans_t& fans) {
     
-    uint16_t tachCount = 0;
-
+    uint16_t rpm = 0;
+    
     Log.notice(F("Reading fan rpms"));
 
     for (auto it = fans.begin(); it != fans.end(); it++) {
-        _fanControl.getTachCount(it->first, tachCount);
-        it->second.rpm = tachCount;
-        Log.notice(F("Fan %s tach rpm - %d"), it->second.position.c_str(), tachCount);
+        _fanControl.getRPM(it->first, rpm);
+        it->second.rpm = rpm;
+        Log.notice(F("Fan %s rpm - %d"), it->second.position.c_str(), rpm);
     }
-};    
+};
 
 void RackTempController::readTempStates(Thermos_t& thermos) {
 

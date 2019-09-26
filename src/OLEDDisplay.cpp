@@ -63,7 +63,7 @@ void OLEDDisplay::internalRender(RackState_t&rs, const NetworkState_t& ns) {
     OLED_Colour LINE_COL = DARKGRAY;
 
     _oled.drawString(x, 128-18, F("TEMP C"), WHITE, BLACK);
-    _oled.drawString(x, y-1-18, F("TACH %"), WHITE, BLACK);
+    _oled.drawString(x, y-1-18, F("RPM %"), WHITE, BLACK);
     _oled.drawCircle(38, 128-4, 2, WHITE);  // degree symbol
     _oled.drawLine(x+65, 0, x+65, 128, LINE_COL);
     _oled.drawLine(0, y-2, 128, y-2, LINE_COL);
@@ -152,7 +152,8 @@ uint8_t OLEDDisplay::getPercentageRPM(const FanState_t& fan) const {
     else if (fan.rpm > fan.maxRpm)  // maybe due to "noise" on tach pin
         return 100;
     else 
-        return round(((float)(fan.rpm - fan.minRpm) / (fan.maxRpm - fan.minRpm)) * 100.0);
+        //return round(((float)(fan.rpm - fan.minRpm) / (fan.maxRpm - fan.minRpm)) * 100.0);
+        return round( ((float)fan.rpm / fan.maxRpm) * 100 );
 }
 
 void OLEDDisplay::drawPercentage(int x, int y, uint8_t pc) {

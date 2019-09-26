@@ -74,6 +74,9 @@ public:
     virtual RESULT setPWM(const uint8_t fanid, const uint16_t dutyCycle);
     virtual RESULT getTachCount(const uint8_t fanid, uint16_t& tachCount);
 
+    virtual RESULT getTachHz(const uint8_t fanid, uint16_t& tachHz);
+    virtual RESULT getRPM(const uint8_t fanid, uint16_t& rpm);
+
     RESULT getGlobalConfiguration(GlobalConfig& config);
     //RESULT setGlobalConfiguration(const GlobalConfig& config);
     //RESULT setFanConfigForAll(const FanConfigStruct& config);

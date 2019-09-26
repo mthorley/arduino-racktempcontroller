@@ -18,7 +18,7 @@ typedef struct {
 
 typedef struct {
     String   position;  // TL, TR etc
-    uint16_t pwm;       // % of dutycycle
+    uint8_t  pwm;       // % of dutycycle
     uint16_t rpm;       // tach count
     uint16_t minRpm;    // minRpm may be >0
     uint16_t maxRpm;
@@ -40,6 +40,13 @@ typedef struct {
     uint16_t  mqttPort;
 } NetworkState_t;
 
+/**
+ * Controller class for thermometers (using OneWire)
+ * and fans under the interface FanControl.
+ * Any number of thermos or fans can be supported as 
+ * long as these are configured by factory methods:
+ * build() and build_debug();
+ */
 class RackTempController
 {    
 public:
@@ -58,10 +65,10 @@ public:
     void searchAndPrintAddresses();
   
 protected:
-    void readFanSpeed(Fans_t& fs);
-    void readTempState(Thermos_t& ts);
-    void adjustFanSpeed(RackState_t& rs);
-    void verifyFanState(Fans_t& fs) const;
+    void readFanSpeeds(Fans_t& fs);
+    void readTempStates(Thermos_t& ts);
+    void adjustFanSpeeds(RackState_t& rs);
+    void verifyFanStates(Fans_t& fs) const;
     void analyseTrends(RackState_t& rs) /* const */;
 
     void printAddress(const DeviceAddress deviceAddress) const;

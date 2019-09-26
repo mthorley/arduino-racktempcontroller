@@ -81,7 +81,8 @@ void OLEDDisplay::internalRender(RackState_t&rs, const NetworkState_t& ns) {
     // draw tachs
     y = y - 1 - 18;
 
-    uint8_t pc = getPercentageRPM(rs.fans[1]);
+    uint8_t pc = 
+    getPercentageRPM(rs.fans[1]);
     drawPercentage(x, y-25, pc);
 
     pc = getPercentageRPM(rs.fans[2]);

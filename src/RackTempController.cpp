@@ -7,16 +7,16 @@
 void RackTempController::process(RackState_t& rs) {
     
     // read temperatures
-    readTempState(rs.thermos);
+    readTempStates(rs.thermos);
 
-    // set fan speed based on temps
-    adjustFanSpeed(rs);
+    // adjust fan speeds based on temps
+    adjustFanSpeeds(rs);
     
-    // read fan tach/rpm - delay of 750ms per fan
-    readFanSpeed(rs.fans);
+    // read fan tach/rpms - delay of 750ms per fan
+    readFanSpeeds(rs.fans);
 
-    // verify fan PWM matches RPM
-    verifyFanState(rs.fans);
+    // verify fan PWMs matches RPMs
+    verifyFanStates(rs.fans);
 
     // analyse trends
     analyseTrends(rs);
@@ -72,14 +72,18 @@ RESULT RackTempController::checkRpm(FanState_t& fs) const {
         return ERR_FAN_NOT_OPERATIONAL;
     }
 
-    // is the fan within expected RPM given dutyCycle?
-    uint16_t expectedRpm = round((float)(fs.maxRpm - fs.minRpm)/fs.pwm);
+    // is the fan within expected RPM variance given dutyCycle?
+    uint16_t expectedRpm = round((float)(fs.maxRpm - fs.minRpm) * ((float)fs.pwm/100)) + fs.minRpm;
 
     uint16_t minExpectedRpm = round(expectedRpm - expectedRpm * _rpmVariance);
     uint16_t maxExpectedRpm = round(expectedRpm + expectedRpm * _rpmVariance);
     if (fs.rpm < minExpectedRpm || fs.rpm > maxExpectedRpm) {
         fs.result = ERR_FAN_TACH;
-        Log.error(F("Fan %s rpm is out of range"), fs.position.c_str());
+        Log.error(F("Rpm of fan %s is out of range: %d is not between %d to %d"), 
+            fs.position.c_str(),
+            fs.rpm,
+            minExpectedRpm,
+            maxExpectedRpm);
         return ERR_FAN_TACH;
     }
 
@@ -89,17 +93,17 @@ RESULT RackTempController::checkRpm(FanState_t& fs) const {
 /**
  * Verify fan state: speed
  */
-void RackTempController::verifyFanState(Fans_t& fans) const {
+void RackTempController::verifyFanStates(Fans_t& fans) const {
     for (auto it = fans.begin(); it != fans.end(); it++) {
         checkRpm(it->second);
     }
 }
 
-void RackTempController::adjustFanSpeed(RackState_t& rs) {
+void RackTempController::adjustFanSpeeds(RackState_t& rs) {
 
-    // Basic rule: any fan above 20C, set it at full spin
+    // Basic rule: any thermo above 20C, set it at full spin
     // else run it at half speed.
-    uint16_t dutyCycle = 50;
+    uint8_t dutyCycle = 50;
     for (auto it = rs.thermos.begin(); it != rs.thermos.end(); it++) {
         Temperature_t& thermo = it->second;
         if (thermo.tempCelsuis > 20) {
@@ -120,7 +124,7 @@ void RackTempController::adjustFanSpeed(RackState_t& rs) {
  * Get tach/rpm for all fans
  * Delay of 750ms per fan within getTachCount()
  */
-void RackTempController::readFanSpeed(Fans_t& fans) {
+void RackTempController::readFanSpeeds(Fans_t& fans) {
     
     uint16_t tachCount = 0;
 
@@ -133,7 +137,7 @@ void RackTempController::readFanSpeed(Fans_t& fans) {
     }
 };    
 
-void RackTempController::readTempState(Thermos_t& thermos) {
+void RackTempController::readTempStates(Thermos_t& thermos) {
 
     // Initialise sensors each read incase new sensors are added/removed.
     _tempSensors.begin();

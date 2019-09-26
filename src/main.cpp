@@ -87,8 +87,8 @@ void setup(void)
     Serial.begin(9600);
 
     // setup logging
-//    Log.begin(LOG_LEVEL_VERBOSE, &mqttPublish); // use &Serial only to avoid MQTT events
-    Log.begin(LOG_LEVEL_WARNING, &mqttPublish);   // use &Serial only to avoid log output being published as events
+//    Log.begin(LOG_LEVEL_WARNING, &mqttPublish); // use &Serial only to avoid MQTT events
+    Log.begin(LOG_LEVEL_VERBOSE, &mqttPublish);   // use &Serial only to avoid log output being published as events
     Log.setPrefix(printTimestamp);
     Log.setSuffix(printNewline);
 

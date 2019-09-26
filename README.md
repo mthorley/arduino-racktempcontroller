@@ -1,6 +1,6 @@
 # Arduino Rack Temperature Controller
 
-- To temperature control and monitor a small (12U) network rack system using PWM fans and thermometers managed using an Arduino Mega with a custom designed shield.
+- To temperature control and monitor a small (12U) network rack system using PWM fans and thermometers managed using an Arduino Mega with a custom designed shield:
 
 <img alt="Image of Network Rack kit" src="wiki/images/network-rack.jpg" width="50%"/>
 
@@ -24,7 +24,7 @@ Initial design was based on a separate (non-shield) board using a [MAX31790](htt
 Using a Mega also enabled the PWM control and tach measurement to be done by the Mega pinout and all in software simplifying the overall hardware solution.
 
 # Shield Design
-The shield design outline is based on Jonathan Oxer's [ProtoShieldMega](https://github.com/freetronics/ProtoShieldMega). The top side of the PCB layout is illustrated. The schematic and PCB design files are under /Eagle.
+The shield design outline is based on Jonathan Oxer's [ProtoShieldMega](https://github.com/freetronics/ProtoShieldMega). The top side of the PCB layout is illustrated. The schematic and PCB design files are under [Eagle](/Eagle). EAGLE PCB design software is available from https://www.autodesk.com/products/eagle/free-download and is free for non-commercial use.
 
 ### Pin Mapping
 | Pin | Mapping |
@@ -41,7 +41,6 @@ The shield design outline is based on Jonathan Oxer's [ProtoShieldMega](https://
 ## PCB
 <img alt="Rack Temp Controller PCB" src="wiki/images/fc-pcb-shield.jpg" width="75%"/>
 
-The design is saved as an EAGLE project. EAGLE PCB design software is available from https://www.autodesk.com/products/eagle/free-download and is free for non-commercial use.
 
 ## Manufacture
 I used [DirtyPCBs](https://dirtypcbs.com/store/pcbs) to manufacture the boards. They also support [design rules checking and CAM Gerber export](https://dirtypcbs.com/store/pcbs/about#cam) for EAGLE, which ensures the PCB layout conforms to their manufacture processes and the Gerber files produced will pass.

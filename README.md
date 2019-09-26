@@ -16,7 +16,7 @@
 * Uses [Freetronics OLED](https://www.freetronics.com.au/pages/oled128-quickstart-guide) to display the temperature and fan state of the rack
 * Works with PWM fans of either 5 or 12V and supports configurable frequency (default 25kHz)
 * Uses an [passive infrared sensor](https://www.keyestudio.com/2016-new-keyestudio-pir-motion-sensor-for-arduino-p0488-p0488.html) to prevent burn in for OLED display, only enabling the display on a PIR trigger
-* Publishes all fan, temperature, error states and logs to an MQTT endpoint and topics for analysis and visualisation 
+* Publishes all fan, temperature, error states and logs to an MQTT endpoint and topics for analysis and visualisation; monitor RPM output to verify fan speeds
 
 # Initial Design
 Initial design was based on a separate (non-shield) board using a [MAX31790](https://www.maximintegrated.com/en/products/sensors/MAX31790.html) for fan PWM control and tach measurement integrated with an Arduino Uno using I<sup>2</sup>C. However due to Uno memory limitations of <32k, I upgraded to the Mega with 256k. Code is however included under MAX31790FanControl.cpp.
@@ -116,7 +116,7 @@ Generated new fonts using [GLDCFontCreator](https://github.com/freetronics/FTOLE
 - Make it cheaper
 
 # Credits
-First and foremost to [Johathan Oxer](https://www.patreon.com/superhouse).
+First and foremost to [Johnathan Oxer](https://www.patreon.com/superhouse).
 
 Secondly all the excellent library contributors used in the project.
 

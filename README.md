@@ -16,8 +16,9 @@
 * Uses [Freetronics OLED](https://www.freetronics.com.au/pages/oled128-quickstart-guide) via SPI to display the temperature and fan states of the rack
 * Works with PWM fans of either 5 or 12V and supports configurable frequency (default 25kHz)
 * Uses an [passive infrared sensor](https://www.keyestudio.com/2016-new-keyestudio-pir-motion-sensor-for-arduino-p0488-p0488.html) to prevent burn in for OLED display, only enabling the display on a PIR trigger
-* Monitors fan tachometer output to verify RPM is within expected range and fan has not stalled - displays and alerts via MQTT on errors
+* Monitors and displays fan tachometer output to verify RPM is within expected range and fan has not stalled
 * Publishes all fan, temperature, error states and logs to an MQTT endpoint and topics for analysis and visualisation
+* Software must support any number of temperature devices and fans to enable testing and reuse
 
 # Initial Design
 Initial design was based on a separate (non-shield) board using a [MAX31790](https://www.maximintegrated.com/en/products/sensors/MAX31790.html) for fan PWM control and tach measurement integrated with an Arduino Uno using I<sup>2</sup>C. However due to Uno memory limitations of <32k, I upgraded to the Mega with 256k. Code is however included under MAX31790FanControl.cpp.
@@ -55,7 +56,7 @@ The shield mounted with the EtherMega.
 Minor error on the power circuit which required a track cut and wire from VIN to Fan power. This has been corrected on the Eagle files.
 
 ## Display
-OLED display to render fan and temperature states showing the fan temperatures in the top row, and the fan RPMs as a percentage of maximum RPM in the lower rows.
+OLED display to render fan and temperature states showing the fan temperatures in the top row, and the fan RPMs as a percentage of maximum RPM in the lower rows. The fan RPM % does not always accurately map to the input PWM duty cycle - the [fans](https://noctua.at/en/nf-s12b-redux-1200-pwm/specification) I am using have a +/- 10% variance on RPM. 
 
 <img alt="OLED display" src="wiki/images/fc-oled.jpg" width="50%"/>
 

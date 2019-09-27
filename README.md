@@ -16,7 +16,8 @@
 * Uses [Freetronics OLED](https://www.freetronics.com.au/pages/oled128-quickstart-guide) to display the temperature and fan state of the rack
 * Works with PWM fans of either 5 or 12V and supports configurable frequency (default 25kHz)
 * Uses an [passive infrared sensor](https://www.keyestudio.com/2016-new-keyestudio-pir-motion-sensor-for-arduino-p0488-p0488.html) to prevent burn in for OLED display, only enabling the display on a PIR trigger
-* Publishes all fan, temperature, error states and logs to an MQTT endpoint and topics for analysis and visualisation; monitor RPM output to verify fan speeds
+* Monitor fan tachometer output to verify RPM is within expected range and fan has not stalled
+* Publishes all fan, temperature, error states and logs to an MQTT endpoint and topics for analysis and visualisation
 
 # Initial Design
 Initial design was based on a separate (non-shield) board using a [MAX31790](https://www.maximintegrated.com/en/products/sensors/MAX31790.html) for fan PWM control and tach measurement integrated with an Arduino Uno using I<sup>2</sup>C. However due to Uno memory limitations of <32k, I upgraded to the Mega with 256k. Code is however included under MAX31790FanControl.cpp.
@@ -55,9 +56,9 @@ The shield mounted with the EtherMega.
 Minor error on the power circuit which required a track cut and wire from VIN to Fan power. This has been corrected on the Eagle files.
 
 ## OLED Display
-Display to render fan and temperature states.
+Display to render fan and temperature states showing the fan temperatures in the top row, and the fan RPMs as a percentage of maximum RPM in the lower rows.
 
-TBD
+<img alt="OLED display" src="wiki/images/fc-oled.jpg" width="50%"/>
 
 # Code 
 Development done using [PlatformIO](https://platformio.org/) which supports multiple boards and library management.  

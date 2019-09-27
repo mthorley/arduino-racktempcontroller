@@ -21,7 +21,7 @@
 * Software must support any number of temperature devices and fans to enable testing and reuse
 
 # Initial Design
-Initial design was based on a separate (non-shield) board using a [MAX31790](https://www.maximintegrated.com/en/products/sensors/MAX31790.html) for fan PWM control and tach measurement integrated with an Arduino Uno using I<sup>2</sup>C. However due to Uno memory limitations of <32k, I upgraded to the Mega with 256k. Code is however included under MAX31790FanControl.cpp.
+Initial design was based on a separate (non-shield) board using a [MAX31790](https://www.maximintegrated.com/en/products/sensors/MAX31790.html) for fan PWM control and tach measurement integrated with an Arduino Uno using I<sup>2</sup>C. However due to Uno memory limitations of <32k, I upgraded to the Mega with 256k. Code is however included under [MAX31790FanControl.cpp](src/MAX31790FanControl.cpp).
 
 Using a Mega also enabled the PWM control and tach measurement to be done by the Mega pinout and all in software simplifying the overall hardware solution.
 
@@ -64,7 +64,7 @@ OLED display to render fan and temperature states showing the fan temperatures i
 Development done using [PlatformIO](https://platformio.org/) which supports multiple boards and library management.  
 
 ## Explanation
-The main routine loop executes the process method below which reads the temperature sensors, adjusts the fan speed based on the temperatures, reads and verifies the fan speed RPM is as requested by the PWM dutycycle within a tolerance and analyses temperature trends using a moving average.
+The main routine loop executes the [RackTempController](src/RackTempController.cpp) process method below which reads the temperature sensors, adjusts the fan speed based on the temperatures, reads and verifies the fan speed RPM is as requested by the PWM dutycycle within a tolerance and analyses temperature trends using a moving average.
 
 ```c++ 
 void RackTempController::process(RackState_t& rs) {
@@ -85,6 +85,7 @@ void RackTempController::process(RackState_t& rs) {
     analyseTrends(rs);
 };
 ```
+Thermos and fan configuration is created via [RackTempController::build method](src/RackTempController.cpp#L219) which enables any number of thermos or fans to be used. The OLED display class however, is fixed to specification above.
 
 ## Dependent libraries
 

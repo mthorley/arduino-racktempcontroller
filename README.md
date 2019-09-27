@@ -85,7 +85,7 @@ void RackTempController::process(RackState_t& rs) {
     analyseTrends(rs);
 };
 ```
-Thermos and fan configuration is created via [RackTempController::build method](src/RackTempController.cpp#L219) which enables any number of thermos or fans to be used. The OLED display class however, is fixed to specification above.
+Thermos and fan configuration is created via [RackTempController::build()](src/RackTempController.cpp#L219) which enables any number of thermos or fans to be used. The OLED display class however, is fixed to specification above.
 
 ## Dependent libraries
 

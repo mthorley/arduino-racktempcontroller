@@ -60,6 +60,11 @@ OLED display to render fan and temperature states showing the fan temperatures i
 
 <img alt="OLED display" src="wiki/images/fc-oled.jpg" width="50%"/>
 
+## MQTT Dashboard
+I used the mobile app [IoT MQTT Panel](https://play.google.com/store/apps/details?id=snr.lab.iotmqttpanel.prod&hl=en) to render the MQTT topics which supports configurable panels per topic and different rendering options:
+
+<img alt="MQTT dashboard" src="wiki/images/fc-mqtt-driod.png" width="25%"/>
+
 # Code 
 Development done using [PlatformIO](https://platformio.org/) which supports multiple boards and library management.  
 

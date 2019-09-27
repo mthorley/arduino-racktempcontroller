@@ -115,7 +115,7 @@ Generated new fonts using [GLDCFontCreator](https://github.com/freetronics/FTOLE
 - Make it cheaper
 
 # Credits
-First and foremost to [Johnathan Oxer](https://www.patreon.com/superhouse).
+First and foremost to [Jonathan Oxer](https://www.patreon.com/superhouse).
 
 Secondly all the excellent library contributors used in the project.
 

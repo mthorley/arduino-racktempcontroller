@@ -13,10 +13,10 @@
 * Shield outline derived from Jonathan Oxer's [ProtoShieldMega](https://github.com/freetronics/ProtoShieldMega)
 * Use of [Freetronics PoE module](https://www.freetronics.com.au/products/power-over-ethernet-regulator-8023af) to power the board (and reset it), thermometers, fans and display to simplify power and wire management
 * Measures temperatures using [DS18B20](https://makeradvisor.com/tools/ds18b20-digital-temperature-sensor/) housed in metal cable assembly with an accuracy of +/- 0.5&deg;C
-* Uses [Freetronics OLED](https://www.freetronics.com.au/pages/oled128-quickstart-guide) to display the temperature and fan state of the rack
+* Uses [Freetronics OLED](https://www.freetronics.com.au/pages/oled128-quickstart-guide) via SPI to display the temperature and fan states of the rack
 * Works with PWM fans of either 5 or 12V and supports configurable frequency (default 25kHz)
 * Uses an [passive infrared sensor](https://www.keyestudio.com/2016-new-keyestudio-pir-motion-sensor-for-arduino-p0488-p0488.html) to prevent burn in for OLED display, only enabling the display on a PIR trigger
-* Monitor fan tachometer output to verify RPM is within expected range and fan has not stalled
+* Monitors fan tachometer output to verify RPM is within expected range and fan has not stalled - displays and alerts via MQTT on errors
 * Publishes all fan, temperature, error states and logs to an MQTT endpoint and topics for analysis and visualisation
 
 # Initial Design
@@ -42,7 +42,6 @@ The shield design outline is based on Jonathan Oxer's [ProtoShieldMega](https://
 ## PCB
 <img alt="Rack Temp Controller PCB" src="wiki/images/fc-pcb-shield.jpg" width="75%"/>
 
-
 ## Manufacture
 I used [DirtyPCBs](https://dirtypcbs.com/store/pcbs) to manufacture the boards. They also support [design rules checking and CAM Gerber export](https://dirtypcbs.com/store/pcbs/about#cam) for EAGLE, which ensures the PCB layout conforms to their manufacture processes and the Gerber files produced will pass.
 
@@ -55,8 +54,8 @@ The shield mounted with the EtherMega.
 
 Minor error on the power circuit which required a track cut and wire from VIN to Fan power. This has been corrected on the Eagle files.
 
-## OLED Display
-Display to render fan and temperature states showing the fan temperatures in the top row, and the fan RPMs as a percentage of maximum RPM in the lower rows.
+## Display
+OLED display to render fan and temperature states showing the fan temperatures in the top row, and the fan RPMs as a percentage of maximum RPM in the lower rows.
 
 <img alt="OLED display" src="wiki/images/fc-oled.jpg" width="50%"/>
 

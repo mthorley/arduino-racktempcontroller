@@ -25,7 +25,7 @@ Initial design was based on a separate (non-shield) board using a [MAX31790](htt
 Using a Mega also enabled the PWM control and tach measurement to be done by the Mega pinout and all in software simplifying the overall hardware solution.
 
 # Shield Design
-The shield design outline is based on Jonathan Oxer's [ProtoShieldMega](https://github.com/freetronics/ProtoShieldMega). The top side of the PCB layout is illustrated. The schematic and PCB design files are under [Eagle](/Eagle). EAGLE PCB design software is available from https://www.autodesk.com/products/eagle/free-download and is free for non-commercial use.
+The shield design outline is based on [ProtoShieldMega](https://github.com/freetronics/ProtoShieldMega). The top side of the PCB layout is illustrated. The schematic and PCB design files are under [Eagle](/Eagle). EAGLE PCB design software is available from https://www.autodesk.com/products/eagle/free-download and is free for non-commercial use.
 
 ### Pin Mapping
 | Pin | Mapping |

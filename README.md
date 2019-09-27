@@ -99,7 +99,7 @@ All libraries were loaded and managed used PlatformIO's library management.
 | Ethernet | Ethernet, DHCP support |
 | ArduinoMqttClient | MQTT client |
 | TimerOne | PWM control for Timer1 |
-| TimerThree | PWM contorl for Timer3 |
+| TimerThree | PWM control for Timer3 |
 | ArduinoLog | Logging framework |
 | ArduinoSTL | STL library used for map, vector etc |
 

@@ -75,19 +75,31 @@ RESULT RackTempController::checkRpm(FanState_t& fs) const {
     // is the fan within expected RPM variance given dutyCycle?
     uint16_t expectedRpm = round( fs.maxRpm * (float)fs.pwm/100 );
    
-    uint16_t minExpectedRpm = round(expectedRpm - expectedRpm * _rpmVariance);
-    uint16_t maxExpectedRpm = round(expectedRpm + expectedRpm * _rpmVariance);
-    if (fs.rpm < minExpectedRpm || 
-        // ignore if the maxExpectedRpm exceeds maxRpm - noise or fan manufacturer?
-       (fs.rpm > maxExpectedRpm && !(maxExpectedRpm > fs.maxRpm)) )
+    int16_t r = round(expectedRpm - fs.maxRpm * _rpmVariance);
+    uint16_t minExpectedRpm = (r<0) ? 0 : r;
+    uint16_t maxExpectedRpm = round(expectedRpm + fs.maxRpm * _rpmVariance);
+
+    // if rpm is out of range of expectated rpm
+    if (fs.rpm < minExpectedRpm || fs.rpm > maxExpectedRpm)
     {
-        fs.result = ERR_FAN_TACH;
-        Log.error(F("Rpm of fan %s is out of range: %d is not between %d to %d"), 
-            fs.position.c_str(),
-            fs.rpm,
-            minExpectedRpm,
-            maxExpectedRpm);
-        return ERR_FAN_TACH;
+        /* if (fs.rpm > fs.maxRpm) {
+            // assume this is NOT an error condition - perhaps tach noise or manufacture issue?
+            Log.warning(F("Fan %s is spinning at %d rpm, which is faster than maxRpm: %d"), 
+                fs.position.c_str(),
+                fs.rpm,
+                fs.maxRpm);
+        }
+        else */ 
+        {
+            // we are out of range
+            fs.result = ERR_FAN_TACH;
+            Log.error(F("Rpm of fan %s is out of range: %d is not between %d to %d"), 
+                fs.position.c_str(),
+                fs.rpm,
+                minExpectedRpm,
+                maxExpectedRpm);
+            return ERR_FAN_TACH;
+        }
     }
 
     return RES_OK;
@@ -104,12 +116,12 @@ void RackTempController::verifyFanStates(Fans_t& fans) const {
 
 void RackTempController::adjustFanSpeeds(RackState_t& rs) {
 
-    // Basic rule: any thermo above 20C, set it at full spin
+    // Basic rule: any thermo above threshold temp, set it to full spin
     // else run it at half speed.
     uint8_t dutyCycle = 50;
     for (auto it = rs.thermos.begin(); it != rs.thermos.end(); it++) {
         Temperature_t& thermo = it->second;
-        if (thermo.tempCelsuis > 22) {
+        if (thermo.tempCelsuis > _TEMP_THRESHOLD) {
             dutyCycle = 100;
         }
     }

@@ -78,8 +78,9 @@ private:
     FanControl&        _fanControl;   // fan control implementation
 
     std::list <RackState_t> _rsHistory;    // for trend analysis
-    const uint8_t _historyDepth = 10;
-    const float   _rpmVariance  = 0.1;     // 10%
+    const uint8_t _historyDepth = 10;      // holds n samples in cache
+    const float   _rpmVariance  = 0.1;     // variance on maxRpm as %
+    const uint8_t _TEMP_THRESHOLD = 22;    // temp that triggers change in PWM
 
     RESULT checkRpm(FanState_t& fs) const;
     void cache(const RackState_t& rs);

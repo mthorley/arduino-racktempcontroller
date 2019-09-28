@@ -1,6 +1,6 @@
 # Arduino Rack Temperature Controller
 
-- To temperature control and monitor a small (12U) network rack system using PWM fans and thermometers managed using an Arduino Mega with a custom designed shield:
+To temperature control and monitor a small (12U) network rack system using PWM fans and thermometers managed using an Arduino Mega with a custom designed shield:
 
 <img alt="Image of Network Rack kit" src="wiki/images/network-rack.jpg" width="50%"/>
 

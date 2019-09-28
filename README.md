@@ -11,7 +11,7 @@
 # Features and Specification
 * Uses [Freetronics EtherMega](https://www.freetronics.com.au/collections/arduino/products/ethermega-arduino-mega-2560-compatible-with-onboard-ethernet#.XXMqnZMzY0o) Arduino board although likely any Mega board can reuse the shield
 * Shield outline derived from Jonathan Oxer's [ProtoShieldMega](https://github.com/freetronics/ProtoShieldMega)
-* Use of [Freetronics PoE module](https://www.freetronics.com.au/products/power-over-ethernet-regulator-8023af) to power the board (and reset it), thermometers, fans and display to simplify power and wire management
+* Power over Ethernet 802.3af support using [Freetronics PoE module](https://www.freetronics.com.au/products/power-over-ethernet-regulator-8023af) to power the board (and reset it), thermometers, fans and display to simplify power and wire management
 * Measures temperatures using [DS18B20](https://makeradvisor.com/tools/ds18b20-digital-temperature-sensor/) housed in metal cable assembly with an accuracy of +/- 0.5&deg;C
 * Uses [Freetronics OLED](https://www.freetronics.com.au/pages/oled128-quickstart-guide) via SPI to display the temperature and fan states of the rack
 * Works with PWM fans of either 5 or 12V and supports configurable frequency (default 25kHz)
@@ -28,7 +28,7 @@ Using a Mega also enabled the PWM control and tach measurement to be done by the
 # Shield Design
 The shield design outline is based on [ProtoShieldMega](https://github.com/freetronics/ProtoShieldMega). The top side of the PCB layout is illustrated. The schematic and PCB design files are under [Eagle](/Eagle). EAGLE PCB design software is available from https://www.autodesk.com/products/eagle/free-download and is free for non-commercial use.
 
-### Pin Mapping
+## Pin Mapping
 | Pin | Mapping |
 |-----|---------|
 |2, 4, 7| OLED DC, Reset, CS |
@@ -55,10 +55,13 @@ The shield mounted with the EtherMega.
 
 Minor error on the power circuit which required a track cut and wire from VIN to Fan power. This has been corrected on the Eagle files.
 
-## Display
+# Display
 OLED display to render fan and temperature states showing the fan temperatures in the top row, and the fan RPMs as a percentage of maximum RPM in the lower rows. The fan RPM % does not always accurately map to the input PWM duty cycle - the [fans](https://noctua.at/en/nf-s12b-redux-1200-pwm/specification) I am using have a +/- 10% variance on RPM. 
 
 <img alt="OLED display" src="wiki/images/fc-oled.jpg" width="50%"/>
+
+## Font Generation for OLED
+Generated new fonts using [GLDCFontCreator](https://github.com/freetronics/FTOLED/wiki/Displaying-Text#defining-new-fonts).
 
 ## MQTT Dashboard
 I used the mobile app [IoT MQTT Panel](https://play.google.com/store/apps/details?id=snr.lab.iotmqttpanel.prod&hl=en) to render the MQTT topics which supports configurable panels per topic and different rendering options:
@@ -108,9 +111,6 @@ All libraries were loaded and managed used PlatformIO's library management.
 | ArduinoLog | Logging framework |
 | ArduinoSTL | STL library used for map, vector etc |
 
-
-## Font Generation for OLED
-Generated new fonts using [GLDCFontCreator](https://github.com/freetronics/FTOLED/wiki/Displaying-Text#defining-new-fonts).
 
 # TODO
 - Update this README!

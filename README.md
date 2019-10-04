@@ -127,4 +127,6 @@ First and foremost to [Jonathan Oxer](https://www.patreon.com/superhouse).
 Secondly all the excellent library contributors used in the project.
 
 # License
-Licensed under the TAPR Open Hardware License (www.tapr.org/OHL). The [license](Eagle/license) folder within this repository also contains a copy of this license in plain text format.
+Hardware design licensed under the TAPR Open Hardware License (www.tapr.org/OHL) and GNU. The [license](Eagle/license) folder within this repository also contains a copy of this license in plain text format.
+
+Software licensed under GPLv3 - see [license.md](license.md) file for details.

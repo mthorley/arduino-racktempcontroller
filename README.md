@@ -127,4 +127,4 @@ First and foremost to [Jonathan Oxer](https://www.patreon.com/superhouse).
 Secondly all the excellent library contributors used in the project.
 
 # License
-TBD
+Licensed under the TAPR Open Hardware License (www.tapr.org/OHL). The [license](Eagle/license) folder within this repository also contains a copy of this license in plain text format.

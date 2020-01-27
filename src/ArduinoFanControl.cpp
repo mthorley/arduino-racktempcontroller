@@ -116,7 +116,8 @@ RESULT ArduinoFanControl::setPWMForAll(const uint16_t dutyCycle)
     return res;
 }
 
-RESULT ArduinoFanControl::getTachHz(const uint8_t fanid, uint16_t& tachHz) {
+RESULT ArduinoFanControl::getTachHz(const uint8_t fanid, uint16_t& tachHz) 
+{
     ASSERT_RANGE_FAN_ID(fanid, getFanCount());
     
     unsigned long tachTime = 750; //ms
@@ -126,7 +127,8 @@ RESULT ArduinoFanControl::getTachHz(const uint8_t fanid, uint16_t& tachHz) {
     return RES_OK;
 }
 
-RESULT ArduinoFanControl::getRPM(const uint8_t fanid, uint16_t& rpm) {
+RESULT ArduinoFanControl::getRPM(const uint8_t fanid, uint16_t& rpm) 
+{
     uint16_t tachHz;
     getTachHz(fanid, tachHz);
     // Div 2 since TACH returns 2 pulses per revolution:

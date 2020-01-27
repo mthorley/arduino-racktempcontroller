@@ -188,6 +188,7 @@ void RackTempController::readTempStates(Thermos_t& thermos) {
         }
     }
 }
+
 /**
  * Search for all devices and printout addresses
  */

@@ -1,6 +1,7 @@
 #include <ArduinoLog.h>
 #include "RackTempController.h"
 #include "OLEDDisplay.h"
+#include "SevenSegmentRender.h"
 #include <vector>
 
 // Pins
@@ -13,7 +14,9 @@ byte mac[] = {
     0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED
 };
 
-OLEDDisplay oled(PIN_CS, PIN_DC, PIN_RESET);
+OLED oled(PIN_CS, PIN_DC, PIN_RESET);
+OLEDDisplay oledDisplay(oled);
+SevenSegmentRender ssr(oled);
 
 std::vector<RackState_t> testRackStates;
 
@@ -96,7 +99,7 @@ void setup(void)
     Log.setPrefix(printTimestamp);
     Log.setSuffix(printNewline);
 
-    oled.initialise();
+    oledDisplay.initialise();
 
     testRackStates.push_back(testcase_normal_operation());
     testRackStates.push_back(testcase_single_fan_fail());
@@ -119,9 +122,20 @@ void loop(void) {
 
     RackState_t rs;
 
-    for(auto it = testRackStates.begin(); it != testRackStates.end(); it++) {
-        rs = *it;
-        oled.render(rs, ns);
-        delay(2000);
+    for(int i=0;i<10000;i++) {
+        oledDisplay.setOrientation(OLED_Orientation::ROTATE_0);
+        oledDisplay.clearDisplay();
+        for(auto it = testRackStates.begin(); it != testRackStates.end(); it++) {
+            rs = *it;
+            oledDisplay.render(rs, ns);
+            delay(500);
+        }
+        oledDisplay.setOrientation(OLED_Orientation::ROTATE_90);
+        oledDisplay.clearDisplay();
+        for(auto it = testRackStates.begin(); it != testRackStates.end(); it++) {
+            rs = *it;
+            oledDisplay.render(rs, ns);
+            delay(500);
+        }
     }
 }

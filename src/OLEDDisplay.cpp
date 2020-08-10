@@ -4,9 +4,28 @@
 void OLEDDisplay::initialise() {
     _oled.begin();
     _oled.selectFont(Arial14);
+    setOrientation(OLED_Orientation::ROTATE_90);    // when mounted in 2U rack - see rackmount-pi-arduino
 
     if (_usingIRSensor)
         pinMode(_IRPin, INPUT);    
+}
+
+void OLEDDisplay::setOrientation(OLED_Orientation orient) {
+    _oled.setOrientation(orient);
+    switch (orient) {
+        case OLED_Orientation::ROTATE_0:
+            _rotation = SevenSegmentRender::Rotation_t::ROT_0;
+            break;
+
+        case OLED_Orientation::ROTATE_90:
+            _rotation = SevenSegmentRender::Rotation_t::ROT_90;
+            break;
+
+        default:
+            _rotation = SevenSegmentRender::Rotation_t::ROT_0;
+            Log.error(F("Orientation not supported"));            
+            break;
+    }
 }
 
 void OLEDDisplay::render(const String& s) {
@@ -68,31 +87,63 @@ void OLEDDisplay::internalRender(RackState_t&rs, const NetworkState_t& ns) {
     _oled.drawLine(x+65, 0, x+65, 128, LINE_COL);
     _oled.drawLine(0, y-2, 128, y-2, LINE_COL);
     
-    // draw temps
-    float f = rs.thermos["topRack"].tempCelsuis;
-    drawFloat2_1DP(x, y, f);
-    
-    f = rs.thermos["baseRack"].tempCelsuis;
-    drawFloat2_1DP(x+66, y, f);
-
     // draw temp errs
     drawTempErrStates(rs.thermos, x+68, 128-16);
+
+    // draw temps
+    float fTopTemp = rs.thermos["topRack"].tempCelsuis;
+    float fBaseTemp = rs.thermos["baseRack"].tempCelsuis;
+    switch (_rotation) {
+        case SevenSegmentRender::Rotation_t::ROT_0:
+            drawFloat2_1DP(x, y, fTopTemp);
+            drawFloat2_1DP(x+66, y, fBaseTemp);
+            break;
+
+        case SevenSegmentRender::Rotation_t::ROT_90:
+            drawFloat2_1DP(x, y-67, fTopTemp);
+            drawFloat2_1DP(x+66, y-67, fBaseTemp);
+            break;
+
+        default:
+            break;
+    }
 
     // draw tachs
     y = y - 1 - 18;
 
-    uint8_t pc = 
-    getPercentageRPM(rs.fans[1]);
-    drawPercentage(x, y-25, pc);
+    uint8_t pc = 0;
+    switch (_rotation) {
+        case SevenSegmentRender::Rotation_t::ROT_0:
+            pc = getPercentageRPM(rs.fans[1]);
+            drawPercentage(x, y-25, pc);
 
-    pc = getPercentageRPM(rs.fans[2]);
-    drawPercentage(x, y-52, pc);
+            pc = getPercentageRPM(rs.fans[2]);
+            drawPercentage(x, y-52, pc);
 
-    pc = getPercentageRPM(rs.fans[3]);
-    drawPercentage(x+66, y-25, pc);
+            pc = getPercentageRPM(rs.fans[3]);
+            drawPercentage(x+66, y-25, pc);
 
-    pc = getPercentageRPM(rs.fans[4]);
-    drawPercentage(x+66, y-52, pc);
+            pc = getPercentageRPM(rs.fans[4]);
+            drawPercentage(x+66, y-52, pc);
+            break;
+
+        case SevenSegmentRender::Rotation_t::ROT_90:
+            pc = getPercentageRPM(rs.fans[1]);
+            drawPercentage(x, y-4, pc);
+            
+            pc = getPercentageRPM(rs.fans[2]);
+            drawPercentage(x, y+23, pc);
+
+            pc = getPercentageRPM(rs.fans[3]);
+            drawPercentage(x+66, y-4, pc);
+
+            pc = getPercentageRPM(rs.fans[4]);
+            drawPercentage(x+66, y+23, pc);
+            break;
+
+        default:
+            break;
+    }
 
     _oled.drawLine(0, y-54, 128, y-54, LINE_COL);
     
@@ -166,14 +217,14 @@ void OLEDDisplay::drawPercentage(int x, int y, uint8_t pc) {
 
     // dont display leading zeros
     (buf[0] == 0) ? 
-        _ssr.drawNumeric(x, y, SevenSegmentRender::BLANK, SevenSegmentRender::SMALL) :
-        _ssr.drawNumeric(x, y, buf[0], SevenSegmentRender::SMALL);
+        _ssr.drawNumeric(x, y, SevenSegmentRender::BLANK, SevenSegmentRender::SMALL, _rotation) :
+        _ssr.drawNumeric(x, y, buf[0], SevenSegmentRender::SMALL, _rotation);
 
     (buf[0] == 0 && buf[1] == 0) ? 
-        _ssr.drawNumeric(x+20, y, SevenSegmentRender::BLANK, SevenSegmentRender::SMALL) :
-        _ssr.drawNumeric(x+20, y, buf[1], SevenSegmentRender::SMALL);
+        _ssr.drawNumeric(x+20, y, SevenSegmentRender::BLANK, SevenSegmentRender::SMALL, _rotation) :
+        _ssr.drawNumeric(x+20, y, buf[1], SevenSegmentRender::SMALL, _rotation);
     
-    _ssr.drawNumeric(x+40, y, buf[2], SevenSegmentRender::SMALL);
+    _ssr.drawNumeric(x+40, y, buf[2], SevenSegmentRender::SMALL, _rotation);
 }
 
 void OLEDDisplay::drawFloat2_1DP(int x, int y, float f) {
@@ -181,7 +232,7 @@ void OLEDDisplay::drawFloat2_1DP(int x, int y, float f) {
     if (f<0 || f>99.9) {
         Log.error(F("Number out of bounds - %f"), f);
         return; // ERR_OUT_OF_BOUNDS
-    }        
+    }
 
     uint16_t n = f * 10;    // scale float with 1DP to int
 
@@ -189,12 +240,24 @@ void OLEDDisplay::drawFloat2_1DP(int x, int y, float f) {
     getDigits(n, &buf[0]);
 
     (buf[0] == 0) ? 
-        _ssr.drawNumeric(x, y, SevenSegmentRender::BLANK, SevenSegmentRender::SMALL) :
-        _ssr.drawNumeric(x, y, buf[0], SevenSegmentRender::SMALL);
+        _ssr.drawNumeric(x, y, SevenSegmentRender::BLANK, SevenSegmentRender::SMALL, _rotation) :
+        _ssr.drawNumeric(x, y, buf[0], SevenSegmentRender::SMALL, _rotation);
 
-    _ssr.drawNumeric(x+20, y, buf[1], SevenSegmentRender::SMALL);
-    _oled.drawFilledCircle(x+41, y+2, 1, WHITE);    // decimal point
-    _ssr.drawNumeric(x+44, y, buf[2], SevenSegmentRender::SMALL);
+    _ssr.drawNumeric(x+20, y, buf[1], SevenSegmentRender::SMALL, _rotation);
+    _ssr.drawNumeric(x+44, y, buf[2], SevenSegmentRender::SMALL, _rotation);
+
+    switch(_rotation) {
+        case SevenSegmentRender::Rotation_t::ROT_0:
+            _oled.drawFilledCircle(x+41, y+2, 1, WHITE);    // decimal point
+            break;
+
+        case SevenSegmentRender::Rotation_t::ROT_90:
+            _oled.drawFilledCircle(x+41, y+69, 1, WHITE);    // decimal point
+            break;
+
+        default:
+            break;
+    }
 }
 
 /**

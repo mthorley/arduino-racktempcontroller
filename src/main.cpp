@@ -29,7 +29,7 @@ byte mac[] = {
 
 // MQTT config
 const char* CLIENT_ID      = "RackTempController.Arduino.Client";
-const char* MQTT_SERVER_IP = "172.16.0.143";
+const char* MQTT_SERVER_IP = "192.168.2.13";
 const uint16_t MQTT_PORT   = 1883;
 
 // Setup a oneWire instance to communicate with any OneWire device
@@ -38,7 +38,8 @@ OneWire oneWire(PIN_ONE_WIRE_BUS);
 //MAX31790           fanControl(0xC0, 4);
 ArduinoFanControl  fanControl(4);
 RackTempController rtc(oneWire, fanControl);
-OLEDDisplay        oled(PIN_CS, PIN_DC, PIN_RESET, PIN_IR);
+//OLEDDisplay        oled(PIN_CS, PIN_DC, PIN_RESET, PIN_IR);
+OLEDDisplay        oled(PIN_CS, PIN_DC, PIN_RESET);
 EthernetClient     ethClient;
 MqttPublisher      mqttPublish(ethClient, CLIENT_ID, MQTT_SERVER_IP, MQTT_PORT);
 
@@ -101,10 +102,14 @@ void setup(void)
         oled.render("Ethernet initialised");
         Log.notice(F("Ethernet initialised"));
         
-        mqttPublish.initialise();
-        
-        oled.render("Mqtt initialised");
-        Log.notice(F("Mqtt initialised"));
+        if (mqttPublish.initialise()==0) {
+            oled.render("Mqtt initialised");
+            Log.notice(F("Mqtt initialised"));    
+        }
+        else {
+            oled.render("Mqtt failed initialise");
+            Log.notice(F("Mqtt failed to initialise"));             
+        } 
     }
     else {
         oled.render("Ethernet failed to initialised");

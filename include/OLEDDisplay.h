@@ -25,12 +25,20 @@ public:
         _usingIRSensor = false;
     };
 
+    OLEDDisplay(OLED oled) :
+        _oled(oled), _box(oled), _ssr(oled)
+    {
+        _box.setForegroundColour(BLUE);
+        _usingIRSensor = false;
+    };
+
     void initialise();
 
     void render(const String& s);
     void render(RackState_t& rs, const NetworkState_t& ns); // std::map implementation does not support const
     void clearDisplay();
     void displayOff();
+    void setOrientation(OLED_Orientation orient);   // rotate
 
 protected:
     void internalRender(RackState_t&rs, const NetworkState_t& ns);        
@@ -45,9 +53,10 @@ private:
     int getDigits(uint16_t n, uint8_t* pBuf) const;
     String getIPAddressv4(IPAddress addr) const;
     
-    OLED         _oled;         // FTOLED
-    OLED_TextBox _box;          // text box for initialisation status
-    SevenSegmentRender _ssr;
+    OLED               _oled;         // FTOLED
+    OLED_TextBox       _box;          // text box for initialisation status
+    SevenSegmentRender _ssr;          
+    SevenSegmentRender::Rotation_t  _rotation;  // 7 seg orientation - derived from OLED orientation
 
     // IR Sensor related
     bool    _usingIRSensor;

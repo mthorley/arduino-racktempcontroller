@@ -15,7 +15,7 @@ public:
         _serverIP(serverIP),
         _port(port) {};
 
-    void initialise();
+    int initialise();
 
     void publish(RackState_t& rs);
 

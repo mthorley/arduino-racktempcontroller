@@ -1,19 +1,21 @@
 #include "MqttPublisher.h"
 #include <ArduinoLog.h>
 
-void MqttPublisher::initialise()
+int MqttPublisher::initialise()
 {
     if (!_mqttClient.connect(_serverIP.c_str(), _port)) {
         Log.error(F("Mqtt connection failed - error code %d"), _mqttClient.connectError());
+        return _mqttClient.connectError();
     }
     _mqttClient.setId(_clientID);
+    return 0;
 }
 
 void MqttPublisher::publish(RackState_t& rs) {
     
     if (!_mqttClient.connected()) {
         Log.error(F("Mqtt connection lost ... attempting reconnection"));
-        initialise();        
+        initialise();
     }
 
     Log.notice(F("Publishing temperature events"));

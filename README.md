@@ -56,7 +56,7 @@ The shield mounted with the EtherMega.
 Minor error on the power circuit which required a track cut and wire from VIN to Fan power. This has been corrected on the Eagle files.
 
 # Display
-OLED display to render fan and temperature states showing the fan temperatures in the top row, and the fan RPMs as a percentage of maximum RPM in the lower rows. The fan RPM % does not always accurately map to the input PWM duty cycle - the [fans](https://noctua.at/en/nf-s12b-redux-1200-pwm/specification) I am using have a +/- 10% variance on RPM. 
+OLED display to render fan and temperature states showing the fan temperatures in the top row, and the fan RPMs as a percentage of maximum RPM in the lower rows. The fan RPM % does not always accurately map to the input PWM duty cycle - the [fans](https://noctua.at/en/nf-s12b-redux-1200-pwm/specification) I am using have a +/- 10% variance on RPM. The display also supports 90 degree rotation to support rack mounting.
 
 <img alt="OLED display" src="wiki/images/fc-oled.jpg" width="50%"/>
 

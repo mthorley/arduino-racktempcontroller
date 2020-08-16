@@ -118,7 +118,7 @@ All libraries were loaded and managed used PlatformIO's library management.
 - Improve MQTT events
 - Watchdog via AWS lambda which reboots via PoE
 - Mount in rack - 3d print something
-- Look at FreeRTOS and work out if its worth it
+- Look at FreeRTOS or [Helios](https://github.com/MannyPeterson/HeliOS) and work out if its worth it
 - Make it cheaper
 
 # Credits

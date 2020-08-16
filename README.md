@@ -95,7 +95,7 @@ void RackTempController::process(RackState_t& rs) {
 ```
 Thermos and fan configuration is created via [RackTempController::build()](src/RackTempController.cpp#L219) which enables any number of thermos or fans to be used. The OLED display class however, is fixed to the specification above.
 
-## Dependent libraries
+## Dependent Libraries
 
 All libraries were loaded and managed used PlatformIO's library management. 
 
@@ -111,13 +111,15 @@ All libraries were loaded and managed used PlatformIO's library management.
 | ArduinoLog | Logging framework |
 | ArduinoSTL | STL library used for map, vector etc |
 
+## Rack Mount
+
+[Modular 3d printed model](https://github.com/mthorley/2u-rack-3dprint-model) to host the OLED and Mega in a 2U rack.
 
 # TODO
 - Update this README!
 - Create a config endpoint - possibly via MQTT subscribe to enable changes to MQTT params, temp threshold etc. 
 - Improve MQTT events
 - Watchdog via AWS lambda which reboots via PoE
-- Mount in rack - 3d print something
 - Look at FreeRTOS or [Helios](https://github.com/MannyPeterson/HeliOS) and work out if its worth it
 - Make it cheaper
 

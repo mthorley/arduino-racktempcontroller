@@ -3,9 +3,11 @@
 #include <ArduinoLog.h>
 #include "RackTempController.h"
 #include "OLEDDisplay.h"
-#include "MqttPublisher.h"
+#include "MqttManager.h"
 //#include "MAX31790FanControl.h"
 #include "ArduinoFanControl.h"
+
+void onMqttMessage(int messageSize);
 
 /*
 All pin usage
@@ -41,9 +43,11 @@ RackTempController rtc(oneWire, fanControl);
 //OLEDDisplay        oled(PIN_CS, PIN_DC, PIN_RESET, PIN_IR);
 OLEDDisplay        oled(PIN_CS, PIN_DC, PIN_RESET);
 EthernetClient     ethClient;
-MqttPublisher      mqttPublish(ethClient, CLIENT_ID, MQTT_SERVER_IP, MQTT_PORT);
+MqttClient         mqttClient(ethClient);
+MqttManager        mqttManager(&mqttClient, CLIENT_ID, MQTT_SERVER_IP, MQTT_PORT);
 
 bool ethernetPresent = false;
+bool displayOnNotOff = true;
 
 RESULT ethernetSetup() {
     RESULT res = RES_OK;
@@ -88,8 +92,8 @@ void setup(void)
     Serial.begin(9600);
 
     // setup logging
-//    Log.begin(LOG_LEVEL_WARNING, &mqttPublish); // use &Serial only to avoid MQTT events
-    Log.begin(LOG_LEVEL_VERBOSE, &mqttPublish);   // use &Serial only to avoid log output being published as events
+//    Log.begin(LOG_LEVEL_WARNING, &mqttManager); // use &Serial only to avoid MQTT events
+    Log.begin(LOG_LEVEL_VERBOSE, &mqttManager);   // use &Serial only to avoid log output being published as events
     Log.setPrefix(printTimestamp);
     Log.setSuffix(printNewline);
 
@@ -102,7 +106,7 @@ void setup(void)
         oled.render("Ethernet initialised");
         Log.notice(F("Ethernet initialised"));
         
-        if (mqttPublish.initialise()==0) {
+        if (mqttManager.initialise()==0) {
             oled.render("Mqtt initialised");
             Log.notice(F("Mqtt initialised"));    
         }
@@ -127,24 +131,47 @@ void loop(void) {
         ns.mqttServerIP = MQTT_SERVER_IP;
         ns.mqttPort = MQTT_PORT;
 
-        mqttPublish.poll();
+        mqttManager.poll();
     }
 
     // read temperatures, modify fan speed
     rtc.process(rs);
 
     // render rack state, network state
-    oled.render(rs, ns);
+    if (displayOnNotOff)
+        oled.render(rs, ns);
 
     if (ethernetPresent) {
         // emit rackstate data, will reconnect if required
-        mqttPublish.publish(rs);
+        mqttManager.publish(rs);
 
         // maintain IP via DHCP
         int res = Ethernet.maintain();
         if (res!=0)
             Log.notice(F("Ethernet maintain - %d"), res);
     }    
+}
+
+void onMqttMessage(int messageSize) {
+    
+    Serial.println("rx");
+    char buf[128];
+    int i=0;
+    while(mqttClient.available()) {
+        if (i<128) 
+            buf[i++] = mqttClient.read();
+    }
+    
+    Serial.println(buf);
+
+    if (buf[0]=='1') {
+        oled.displayOn();
+        displayOnNotOff = true;
+    }
+    else if(buf[0]=='0') {
+        oled.displayOff();
+        displayOnNotOff = false;
+    }
 }
 
 #endif

@@ -40,6 +40,10 @@ void OLEDDisplay::displayOff() {
     _oled.setDisplayOn(false);
 }
 
+void OLEDDisplay::displayOn() {
+    _oled.setDisplayOn(true);
+}
+
 void OLEDDisplay::render(RackState_t&rs, const NetworkState_t& ns) {
 
     if (!_usingIRSensor) {

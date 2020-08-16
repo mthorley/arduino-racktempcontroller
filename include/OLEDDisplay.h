@@ -38,6 +38,7 @@ public:
     void render(RackState_t& rs, const NetworkState_t& ns); // std::map implementation does not support const
     void clearDisplay();
     void displayOff();
+    void displayOn();
     void setOrientation(OLED_Orientation orient);   // rotate
 
 protected:

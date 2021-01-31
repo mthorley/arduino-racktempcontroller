@@ -36,18 +36,18 @@ private:
     const uint16_t _port;       // mqtt server port
     String         _buf;        // log buffer    
 
-    const String topicTempRackTop  = "/device/temp/rack/top";
-    const String topicTempRackBase = "/device/temp/rack/base";
-    const String topicTempRackAve  = "/device/temp/rack/average";
+    const String topicTempRackTop  = "device/temp/rack/top";
+    const String topicTempRackBase = "device/temp/rack/base";
+    const String topicTempRackAve  = "device/temp/rack/average";
     
-    const String topicFanTopLeft   = "/device/rack/fan/topleft";
-    const String topicFanTopRight  = "/device/rack/fan/topright";
-    const String topicFanBaseLeft  = "/device/rack/fan/baseleft";
-    const String topicFanBaseRight = "/device/rack/fan/baseright";
+    const String topicFanTopLeft   = "device/rack/fan/topleft";
+    const String topicFanTopRight  = "device/rack/fan/topright";
+    const String topicFanBaseLeft  = "device/rack/fan/baseleft";
+    const String topicFanBaseRight = "device/rack/fan/baseright";
 
-    const String topicConfig      = "/device/rack/config";  //display on/off subscriber topic 
+    const String topicConfig      = "device/rack/config";  //display on/off subscriber topic 
 
-    const String topicRackLog     = "/device/rack/log";
+    const String topicRackLog     = "device/rack/log";
     const String subtopicFanError = "/error";
     const String subtopicFanRPM   = "/rpm";
 };

@@ -31,7 +31,7 @@ byte mac[] = {
 
 // MQTT config
 const char* CLIENT_ID      = "RackTempController.Arduino.Client";
-const char* MQTT_SERVER_IP = "192.168.2.13";
+const char* MQTT_SERVER_IP = "k8smqtt"; //"192.168.2.11";
 const uint16_t MQTT_PORT   = 1883;
 
 // Setup a oneWire instance to communicate with any OneWire device
@@ -92,8 +92,8 @@ void setup(void)
     Serial.begin(9600);
 
     // setup logging
-//    Log.begin(LOG_LEVEL_WARNING, &mqttManager); // use &Serial only to avoid MQTT events
-    Log.begin(LOG_LEVEL_VERBOSE, &mqttManager);   // use &Serial only to avoid log output being published as events
+    Log.begin(LOG_LEVEL_WARNING, &mqttManager); // use &Serial only to avoid MQTT events
+//    Log.begin(LOG_LEVEL_VERBOSE, &mqttManager);   // use &Serial only to avoid log output being published as events
     Log.setPrefix(printTimestamp);
     Log.setSuffix(printNewline);
 

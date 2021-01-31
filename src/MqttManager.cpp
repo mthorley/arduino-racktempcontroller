@@ -5,11 +5,14 @@ extern void onMqttMessage(int messageSize);
 
 int MqttManager::initialise()
 {
+    _p_mqttClient->setId(_clientID);
+    _p_mqttClient->setUsernamePassword("test", "test");
+    _p_mqttClient->setCleanSession(true);
+
     if (!_p_mqttClient->connect(_serverIP.c_str(), _port)) {
         Log.error(F("Mqtt connection failed - error code %d"), _p_mqttClient->connectError());
         return _p_mqttClient->connectError();
     }
-    _p_mqttClient->setId(_clientID);
 
     // set message handler for callback
     _p_mqttClient->onMessage(::onMqttMessage);

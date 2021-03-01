@@ -14,7 +14,7 @@
 #define PWMOUT_TARGET_DUTY_CYCLE(ch) (0x40+(ch-1)*2)
 #define TACH_TARGET(ch)		         (0x50+(ch-1)*2)
 
-#define MAX_DUTY_CYCLE_SCALE 511    // range is 0-511 
+#define MAX_DUTY_CYCLE_SCALE 511    // range is 0-511
 
 /**
  * Global Configuration
@@ -91,7 +91,7 @@ public:
 
 private:
     RESULT readByte(const uint8_t address, uint8_t& result);
-    RESULT readBytes(const uint8_t address, const uint8_t n, uint8_t* result);    
+    RESULT readBytes(const uint8_t address, const uint8_t n, uint8_t* result);
     RESULT writeByte(const uint8_t address, const uint8_t byte);
     RESULT writeBytes(const uint8_t address, const uint8_t* bytes, const uint8_t nBytes);
     

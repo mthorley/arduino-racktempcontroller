@@ -34,7 +34,7 @@ private:
     const String   _clientID;   // client identifier
     const String   _serverIP;   // mqtt server IP endpoint
     const uint16_t _port;       // mqtt server port
-    String         _buf;        // log buffer    
+    String         _buf;        // log buffer
 
     const String topicTempRackTop  = "device/temp/rack/top";
     const String topicTempRackBase = "device/temp/rack/base";

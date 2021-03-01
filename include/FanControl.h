@@ -21,8 +21,8 @@
     var, 1, fans, "Fanid out of range")
 
 /**
- * Abstract base class for all Fan Control. 
- * Sub types include Arduino and MAX31790 classes. 
+ * Abstract base class for all Fan Control.
+ * Sub types include Arduino and MAX31790 classes.
  */
 class FanControl
 {

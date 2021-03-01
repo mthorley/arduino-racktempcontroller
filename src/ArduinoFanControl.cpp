@@ -111,7 +111,7 @@ RESULT ArduinoFanControl::setPWMForAll(const uint16_t dutyCycle)
     
     RESULT res = RES_OK;
     for(int i=1; i<=getFanCount(); i++) {
-        res = res & setPWM(i, dutyCycle);        
+        res = res & setPWM(i, dutyCycle);
     }
     return res;
 }

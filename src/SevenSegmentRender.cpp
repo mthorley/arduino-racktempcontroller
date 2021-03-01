@@ -149,7 +149,7 @@ void SevenSegmentRender::drawLargeNumeric(const int x, const int y, const uint8_
             _oled.displayBMP(oled7seg_9_24bit_38x50, x, y);
             break;
         case BLANK:
-            // display background '8' image        
+            // display background '8' image
             _oled.displayBMP(oled7seg_base_24bit_38x50, x, y);
             break;
 

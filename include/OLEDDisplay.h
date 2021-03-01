@@ -42,12 +42,12 @@ public:
     void setOrientation(OLED_Orientation orient);   // rotate
 
 protected:
-    void internalRender(RackState_t&rs, const NetworkState_t& ns);        
+    void internalRender(RackState_t&rs, const NetworkState_t& ns);
     void drawFloat2_1DP(int x, int y, float f);
     void drawPercentage(int x, int y, uint8_t pc);
-    void drawTempErrStates(const Thermos_t& thermos, int x, int y);        
+    void drawTempErrStates(const Thermos_t& thermos, int x, int y);
     void drawFanErrStates(const Fans_t& fans, int x, int y);
-    void drawNetworkState(const NetworkState_t& ns, int x, int y);        
+    void drawNetworkState(const NetworkState_t& ns, int x, int y);
     uint8_t getPercentageRPM(const FanState_t& fan) const;
 
 private:

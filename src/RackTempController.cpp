@@ -161,11 +161,11 @@ void RackTempController::readTempStates(Thermos_t& thermos) {
     //  searchAndPrintAddresses();
     
     // Iterate through all devices ensuring they are still connected
-    for (auto it = thermos.begin(); it != thermos.end(); it++) {        
+    for (auto it = thermos.begin(); it != thermos.end(); it++) {
         Temperature_t& thermo = it->second;
         if (!_tempSensors.isConnected(thermo.addr)) {
             Log.warning(F("Unable to find thermometer %s"), it->first.c_str());
-            thermo.result = ERR_FAILED_TO_FIND_DEVICE;            
+            thermo.result = ERR_FAILED_TO_FIND_DEVICE;
         }
     }
     
@@ -174,7 +174,7 @@ void RackTempController::readTempStates(Thermos_t& thermos) {
     _tempSensors.requestTemperatures();
 
     // Get temperature for each thermometer
-    for (auto it = thermos.begin(); it != thermos.end(); it++) {        
+    for (auto it = thermos.begin(); it != thermos.end(); it++) {
         Temperature_t& thermo = it->second;
         // if device found, then read temp
         if (thermo.result != ERR_FAILED_TO_FIND_DEVICE) {
@@ -183,7 +183,7 @@ void RackTempController::readTempStates(Thermos_t& thermos) {
                 Log.warning(F("Failed to read %s temperature"), it->first.c_str());
             }
             else {
-                Log.notice(F("%s.tempCelsuis - %F"), it->first.c_str(), thermo.tempCelsuis);         
+                Log.notice(F("%s.tempCelsuis - %F"), it->first.c_str(), thermo.tempCelsuis);
             }
         }
     }
@@ -296,7 +296,7 @@ RackState_t RackTempController::build_debug() const {
     
     rs.thermos.insert({ 
         "topRack", {
-            { 0x28, 0xFF, 0xBF, 0xDC, 0x51, 0x17, 0x04, 0x48 }, //keyes 
+            { 0x28, 0xFF, 0xBF, 0xDC, 0x51, 0x17, 0x04, 0x48 }, //keyes
             0.0,
             RES_OK
         }

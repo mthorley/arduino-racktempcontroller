@@ -108,16 +108,16 @@ void setup(void)
         
         if (mqttManager.initialise()==0) {
             oled.render("Mqtt initialised");
-            Log.notice(F("Mqtt initialised"));    
+            Log.notice(F("Mqtt initialised"));
         }
         else {
             oled.render("Mqtt failed initialise");
-            Log.notice(F("Mqtt failed to initialise"));             
+            Log.notice(F("Mqtt failed to initialise"));
         } 
     }
     else {
         oled.render("Ethernet failed to initialised");
-        Log.error(F("Ethernet failed to initalise %d"), res);        
+        Log.error(F("Ethernet failed to initalise %d"), res);
     }
 }
   

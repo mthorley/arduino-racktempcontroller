@@ -7,7 +7,7 @@ void OLEDDisplay::initialise() {
     setOrientation(OLED_Orientation::ROTATE_90);    // when mounted in 2U rack - see rackmount-pi-arduino
 
     if (_usingIRSensor)
-        pinMode(_IRPin, INPUT);    
+        pinMode(_IRPin, INPUT);
 }
 
 void OLEDDisplay::setOrientation(OLED_Orientation orient) {
@@ -23,7 +23,7 @@ void OLEDDisplay::setOrientation(OLED_Orientation orient) {
 
         default:
             _rotation = SevenSegmentRender::Rotation_t::ROT_0;
-            Log.error(F("Orientation not supported"));            
+            Log.error(F("Orientation not supported"));
             break;
     }
 }
@@ -48,12 +48,12 @@ void OLEDDisplay::render(RackState_t&rs, const NetworkState_t& ns) {
 
     if (!_usingIRSensor) {
         // just render if no IR sensor is configured
-        internalRender(rs, ns);        
+        internalRender(rs, ns);
         return;
     }
 
     // if IR sensor triggered ...
-    byte state = digitalRead(_IRPin);    
+    byte state = digitalRead(_IRPin);
     if (state == 1 || _firstDisplay) {
         internalRender(rs, ns);
     }
@@ -64,7 +64,7 @@ void OLEDDisplay::render(RackState_t&rs, const NetworkState_t& ns) {
         }
         else {
             displayOff();
-            _l = 0;            
+            _l = 0;
         }
     }
 }
@@ -178,7 +178,7 @@ void OLEDDisplay::drawTempErrStates(const Thermos_t& thermos, int x, int y) {
         }
         else {
             // clear
-            _oled.drawFilledBox(x, y, x+w, y+10, BLACK);            
+            _oled.drawFilledBox(x, y, x+w, y+10, BLACK);
         }
         x += w + 3;
     }
@@ -195,7 +195,7 @@ void OLEDDisplay::drawFanErrStates(const Fans_t& fans, int x, int y) {
         }
         else {
             // clear
-            _oled.drawFilledBox(x, y, x+w, y+10, BLACK);            
+            _oled.drawFilledBox(x, y, x+w, y+10, BLACK);
         }
         x += w + 3;
     }

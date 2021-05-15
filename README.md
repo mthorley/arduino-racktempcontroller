@@ -4,9 +4,10 @@ To temperature control and monitor a small (12U) network rack system using PWM f
 
 <img alt="Image of Network Rack kit" src="wiki/images/network-rack.jpg" width="50%"/>
 
-**Plan** is to have
+Above rack has:
 - 4 fans mounted (2 top and 2 base) in the rack
 - 2 temperature sensors one at the top and base
+- [Modular 3d printed model](https://github.com/mthorley/2u-rack-3dprint-model) 2U rack housing Arduino temperature controller and OLED shown far left
 
 # Features and Specification
 * Uses [Freetronics EtherMega](https://www.freetronics.com.au/collections/arduino/products/ethermega-arduino-mega-2560-compatible-with-onboard-ethernet#.XXMqnZMzY0o) Arduino board although likely any Mega board can reuse the shield
@@ -113,7 +114,7 @@ All libraries were loaded and managed used PlatformIO's library management.
 
 ## Rack Mount
 
-[Modular 3d printed model](https://github.com/mthorley/2u-rack-3dprint-model) to host the OLED and Mega in a 2U rack.
+Further details on the rack mount design: [3D printed model](https://github.com/mthorley/2u-rack-3dprint-model).
 
 # TODO
 - Update this README!
